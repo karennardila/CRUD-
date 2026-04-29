@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro de Estudiantes - Plataforma Académica</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(140deg, #071a3a 0%, #0c2d62 55%, #123a7a 100%);
+      margin: 0;
+      padding: 30px 20px;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #f8fbff;
+      border-radius: 16px;
+      box-shadow: 0 14px 34px rgba(2, 14, 39, 0.34);
+      padding: 30px;
+      border: 1px solid #d8e4ff;
+      position: relative;
+      overflow: hidden;
+    }
+    .encabezado {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .encabezado-texto {
+      flex: 1;
+      min-width: 0;
+    }
+    h1 {
+      text-align: left;
+      color: #0a2d66;
+      margin-bottom: 10px;
+      margin-top: 0;
+    }
+    .subtitulo {
+      text-align: left;
+      color: #355a99;
+      margin-bottom: 0;
+      font-size: 14px;
+    }
+    .estado-nodo {
+      margin-top: 10px;
+      display: inline-block;
+      background: #eaf2ff;
+      border: 1px solid #c3d7fb;
+      color: #0a2d66;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .logo-esquina {
+      width: 92px;
+      height: auto;
+      border-radius: 10px;
+      background: #ffffff;
+      box-shadow: 0 6px 16px rgba(12, 45, 98, 0.22);
+      padding: 4px;
+      flex-shrink: 0;
+    }
+    .layout-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+    .panel {
+      background: #ffffff;
+      border: 1px solid #d8e4ff;
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 6px 16px rgba(12, 45, 98, 0.08);
+    }
+    .panel h2 {
+      margin-top: 0;
+      color: #0a2d66;
+      margin-bottom: 14px;
+      font-size: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #123a7a;
+    }
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #b9cdee;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      font-size: 14px;
+      color: #0a2d66;
+      box-sizing: border-box;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      background-color: #ffffff;
+    }
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #1d5ec6;
+      box-shadow: 0 0 0 3px rgba(29, 94, 198, 0.2);
+    }
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(90deg, #0b3470 0%, #1553ae 100%);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.2s ease;
+    }
+    button:hover {
+      box-shadow: 0 8px 20px rgba(11, 52, 112, 0.35);
+    }
+    button:active {
+      transform: translateY(1px);
+    }
+    .resultado {
+      margin-top: 24px;
+      padding: 18px;
+      border-radius: 10px;
+      background: #eaf2ff;
+      color: #0a2d66;
+      border: 1px solid #c3d7fb;
+    }
+    .acciones-formulario {
+      display: flex;
+      gap: 10px;
+    }
+    .acciones-formulario button {
+      margin: 0;
+    }
+    #cancelarEdicionBtn {
+      background: #7f8c8d;
+    }
+    .lista-usuarios {
+      margin-top: 0;
+      border-top: none;
+      padding-top: 0;
+    }
+    .lista-usuarios h2 {
+      color: #0a2d66;
+      margin-top: 0;
+    }
+    .busqueda {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .busqueda input {
+      margin: 0;
+      flex: 1;
+    }
+    .busqueda button {
+      width: auto;
+      padding: 10px 14px;
+      font-size: 14px;
+      margin: 0;
+    }
+    .usuario-item {
+      background: #ffffff;
+      border: 1px solid #d8e4ff;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+    .usuario-item p {
+      margin: 6px 0;
+      color: #234276;
+    }
+    .acciones-item {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .acciones-item button {
+      width: auto;
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+    .btn-editar {
+      background: linear-gradient(90deg, #0f766e 0%, #159f94 100%);
+    }
+    .btn-eliminar {
+      background: linear-gradient(90deg, #8e1b1b 0%, #c0392b 100%);
+    }
+    @media (min-width: 900px) {
+      .layout-grid {
+        grid-template-columns: minmax(360px, 0.95fr) minmax(430px, 1.25fr);
+      }
+      .panel-form {
+        position: sticky;
+        top: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="encabezado">
+      <div class="encabezado-texto">
+        <h1>Registro de Estudiantes - Plataforma Académica</h1>
+        <p class="subtitulo">Sistema conectado a MongoDB</p>
+        <div id="estadoNodo" class="estado-nodo">Nodo activo: consultando...</div>
+      </div>
+      <img src="logo-unimayor.png" alt="Logo Registro de Estudiantes Unimayor" class="logo-esquina" />
+    </div>
+    <div class="layout-grid">
+      <div class="panel panel-form">
+        <h2>Formulario</h2>
+        <form id="userForm">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required />
+
+          <label for="tipoIdentificacion">Tipo de identificación</label>
+          <select id="tipoIdentificacion" name="tipoIdentificacion" required>
+            <option value="" selected disabled>Selecciona una opción</option>
+            <option value="TI">Tarjeta de identidad (TI)</option>
+            <option value="CC">Cédula de Ciudadanía (CC)</option>
+            <option value="CE">Cédula de extranjería (CE)</option>
+            <option value="PPT">Permiso por protección temporal (PPT)</option>
+          </select>
+
+          <label for="numeroIdentificacion">Número de identificación</label>
+          <input
+            type="text"
+            id="numeroIdentificacion"
+            name="numeroIdentificacion"
+            placeholder="Ingresa el número"
+            pattern="[0-9]{5,20}"
+            title="Ingresa solo números (5 a 20 dígitos)"
+            required
+          />
+
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" name="email" placeholder="usuario@ejemplo.com" required />
+
+          <label for="edad">Edad</label>
+          <input type="number" id="edad" name="edad" min="0" placeholder="Edad" required />
+
+          <label for="telefono">Teléfono</label>
+          <input
+            type="tel"
+            id="telefono"
+            name="telefono"
+            placeholder="Ej: 3001234567"
+            pattern="[0-9]{7,15}"
+            title="Ingresa solo números (7 a 15 dígitos)"
+            required
+          />
+
+          <div class="acciones-formulario">
+            <button type="submit" id="guardarBtn">Enviar información</button>
+            <button type="button" id="cancelarEdicionBtn" style="display:none;">Cancelar edición</button>
+          </div>
+        </form>
+
+        <div class="resultado" id="resultado" style="display:none;"></div>
+      </div>
+
+      <div class="panel">
+        <div class="lista-usuarios">
+          <h2>Registros guardados</h2>
+          <div class="busqueda">
+            <input
+              type="text"
+              id="busquedaInput"
+              placeholder="Buscar por nombre, identificación, correo o teléfono"
+            />
+            <button type="button" id="buscarBtn">Buscar</button>
+            <button type="button" id="limpiarBusquedaBtn">Mostrar todos</button>
+          </div>
+          <div id="usuariosLista"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('userForm');
+    const resultado = document.getElementById('resultado');
+    const usuariosLista = document.getElementById('usuariosLista');
+    const guardarBtn = document.getElementById('guardarBtn');
+    const cancelarEdicionBtn = document.getElementById('cancelarEdicionBtn');
+    const busquedaInput = document.getElementById('busquedaInput');
+    const buscarBtn = document.getElementById('buscarBtn');
+    const limpiarBusquedaBtn = document.getElementById('limpiarBusquedaBtn');
+    const estadoNodo = document.getElementById('estadoNodo');
+    let editandoId = null;
+
+    function escaparHtml(texto) {
+      return String(texto ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    /** _id puede venir como string o como { $oid } según la versión del driver / JSON. */
+    function idUsuario(doc) {
+      const id = doc && doc._id;
+      if (id == null) return '';
+      if (typeof id === 'string') return id;
+      if (typeof id === 'object' && typeof id.$oid === 'string') return id.$oid;
+      return String(id);
+    }
+
+    function mostrarMensaje(html) {
+      resultado.style.display = 'block';
+      resultado.innerHTML = html;
+    }
+
+    function renderUsuarios(usuarios, termino) {
+      if (!usuarios.length) {
+        usuariosLista.innerHTML = termino
+          ? '<p>No se encontraron resultados para la búsqueda.</p>'
+          : '<p>No hay registros todavía.</p>';
+        return;
+      }
+
+      usuariosLista.innerHTML = usuarios.map((usuario) => `
+        <div class="usuario-item">
+          <p><strong>Nombre:</strong> ${escaparHtml(usuario.nombre)}</p>
+          <p><strong>Identificación:</strong> ${escaparHtml(usuario.tipoIdentificacion)} ${escaparHtml(usuario.numeroIdentificacion)}</p>
+          <p><strong>Email:</strong> ${escaparHtml(usuario.email)}</p>
+          <p><strong>Edad:</strong> ${escaparHtml(usuario.edad)}</p>
+          <p><strong>Teléfono:</strong> ${escaparHtml(usuario.telefono)}</p>
+          <div class="acciones-item">
+            <button type="button" class="btn-editar" onclick="editarUsuario('${escaparHtml(idUsuario(usuario))}')">Editar</button>
+            <button type="button" class="btn-eliminar" onclick="eliminarUsuario('${escaparHtml(idUsuario(usuario))}')">Eliminar</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function refrescarVistaDesdeCache() {
+      const termino = busquedaInput.value.trim().toLowerCase();
+      const usuarios = window.__usuariosCache || [];
+      if (!termino) {
+        renderUsuarios(usuarios, '');
+        return;
+      }
+      const filtrados = usuarios.filter((usuario) => (
+        (usuario.nombre || '').toLowerCase().includes(termino) ||
+        (usuario.numeroIdentificacion || '').toLowerCase().includes(termino) ||
+        (usuario.email || '').toLowerCase().includes(termino) ||
+        (usuario.telefono || '').toLowerCase().includes(termino)
+      ));
+      renderUsuarios(filtrados, termino);
+    }
+
+    async function actualizarEstadoNodo() {
+      try {
+        const response = await fetch('/estado-nodo');
+        const data = await response.json();
+        if (!response.ok || !data.success) {
+          throw new Error(data.message || 'No se pudo consultar el nodo activo');
+        }
+        estadoNodo.textContent = `Nodo activo: ${data.nodo} (${data.modo})`;
+      } catch (error) {
+        estadoNodo.textContent = 'Nodo activo: no disponible';
+      }
+    }
+
+    function activarModoEdicion(usuario) {
+      editandoId = idUsuario(usuario);
+      form.nombre.value = usuario.nombre || '';
+      form.tipoIdentificacion.value = usuario.tipoIdentificacion || '';
+      form.numeroIdentificacion.value = usuario.numeroIdentificacion || '';
+      form.email.value = usuario.email || '';
+      form.edad.value = usuario.edad ?? '';
+      form.telefono.value = usuario.telefono || '';
+      guardarBtn.textContent = 'Actualizar información';
+      cancelarEdicionBtn.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function salirModoEdicion() {
+      editandoId = null;
+      limpiarCamposFormulario();
+      guardarBtn.textContent = 'Enviar información';
+      cancelarEdicionBtn.style.display = 'none';
+    }
+
+    function limpiarCamposFormulario() {
+      form.reset();
+      form.nombre.value = '';
+      form.tipoIdentificacion.selectedIndex = 0;
+      form.numeroIdentificacion.value = '';
+      form.email.value = '';
+      form.edad.value = '';
+      form.telefono.value = '';
+    }
+
+    async function eliminarUsuario(id) {
+      const confirmar = window.confirm('¿Seguro que quieres eliminar este registro?');
+      if (!confirmar) return;
+
+      try {
+        const response = await fetch(`/usuarios/${id}`, { method: 'DELETE' });
+        const result = await response.json();
+        if (!response.ok) {
+          throw new Error(result.message || 'No se pudo eliminar');
+        }
+        if (editandoId === id) {
+          salirModoEdicion();
+        }
+        mostrarMensaje(`<p><strong>Eliminado:</strong> ${escaparHtml(result.message)}</p>`);
+        await cargarUsuarios({ ignorarBusqueda: true });
+      } catch (error) {
+        mostrarMensaje(`<p style="color: #c0392b;"><strong>Error:</strong> ${escaparHtml(error.message)}</p>`);
+      }
+    }
+
+    async function cargarUsuarios(opciones = {}) {
+      const termino = opciones.ignorarBusqueda ? '' : busquedaInput.value.trim();
+      if (opciones.ignorarBusqueda) {
+        busquedaInput.value = '';
+      }
+      const url = termino ? `/usuarios?q=${encodeURIComponent(termino)}` : '/usuarios';
+
+      try {
+        const response = await fetch(url, { cache: 'no-store' });
+        const usuarios = await response.json();
+        if (!response.ok) {
+          throw new Error('No se pudieron cargar los usuarios');
+        }
+
+        window.__usuariosCache = usuarios;
+        refrescarVistaDesdeCache();
+      } catch (error) {
+        usuariosLista.innerHTML = `<p style="color: #c0392b;">${escaparHtml(error.message)}</p>`;
+      }
+    }
+
+    window.editarUsuario = function (id) {
+      const usuarios = window.__usuariosCache || [];
+      const usuario = usuarios.find((u) => idUsuario(u) === String(id));
+      if (!usuario) {
+        mostrarMensaje('<p style="color: #c0392b;"><strong>Error:</strong> Registro no encontrado.</p>');
+        return;
+      }
+      activarModoEdicion(usuario);
+      mostrarMensaje('<p><strong>Modo edición:</strong> actualiza los campos y presiona "Actualizar información".</p>');
+    };
+
+    window.eliminarUsuario = eliminarUsuario;
+
+    cancelarEdicionBtn.addEventListener('click', function () {
+      salirModoEdicion();
+      mostrarMensaje('<p>Edición cancelada.</p>');
+    });
+
+    buscarBtn.addEventListener('click', function () {
+      cargarUsuarios();
+    });
+
+    limpiarBusquedaBtn.addEventListener('click', function () {
+      busquedaInput.value = '';
+      cargarUsuarios();
+    });
+
+    busquedaInput.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        cargarUsuarios();
+      }
+    });
+
+    form.addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      const datos = {
+        nombre: form.nombre.value.trim(),
+        tipoIdentificacion: form.tipoIdentificacion.value,
+        numeroIdentificacion: form.numeroIdentificacion.value.trim(),
+        email: form.email.value.trim(),
+        edad: Number(form.edad.value),
+        telefono: form.telefono.value.trim()
+      };
+
+      try {
+        const esEdicion = Boolean(editandoId);
+        const endpoint = esEdicion ? `/usuarios/${editandoId}` : '/usuarios';
+        const metodo = esEdicion ? 'PUT' : 'POST';
+
+        const response = await fetch(endpoint, {
+          method: metodo,
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(datos)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.message || 'Error al enviar datos');
+        }
+
+        if (esEdicion) {
+          mostrarMensaje(`
+            <h2>Registro actualizado</h2>
+            <p><strong>Nombre:</strong> ${escaparHtml(datos.nombre)}</p>
+            <p><strong>Identificación:</strong> ${escaparHtml(datos.tipoIdentificacion)} ${escaparHtml(datos.numeroIdentificacion)}</p>
+            <p><strong>Email:</strong> ${escaparHtml(datos.email)}</p>
+            <p><strong>Edad:</strong> ${escaparHtml(datos.edad)}</p>
+            <p><strong>Teléfono:</strong> ${escaparHtml(datos.telefono)}</p>
+          `);
+        } else {
+          mostrarMensaje(`
+            <h2>Datos guardados en MongoDB</h2>
+            <p><strong>Nombre:</strong> ${escaparHtml(datos.nombre)}</p>
+            <p><strong>Identificación:</strong> ${escaparHtml(datos.tipoIdentificacion)} ${escaparHtml(datos.numeroIdentificacion)}</p>
+            <p><strong>Email:</strong> ${escaparHtml(datos.email)}</p>
+            <p><strong>Edad:</strong> ${escaparHtml(datos.edad)}</p>
+            <p><strong>Teléfono:</strong> ${escaparHtml(datos.telefono)}</p>
+            <p>ID de registro: ${escaparHtml(result.id)}</p>
+          `);
+        }
+
+        salirModoEdicion();
+        await cargarUsuarios({ ignorarBusqueda: !esEdicion });
+      } catch (error) {
+        mostrarMensaje(`<p style="color: #c0392b;"><strong>Error:</strong> ${escaparHtml(error.message)}</p>`);
+      }
+    });
+
+    const eventos = new EventSource('/eventos');
+    eventos.onmessage = function () {
+      cargarUsuarios();
+      actualizarEstadoNodo();
+    };
+
+    cargarUsuarios();
+    actualizarEstadoNodo();
+  </script>
+</body>
+</html>
